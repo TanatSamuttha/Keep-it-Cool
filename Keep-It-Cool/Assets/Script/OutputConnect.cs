@@ -7,6 +7,7 @@ public class OutputConnect : MonoBehaviour
 {
     public InputConnect inputConnect;
     public GameObject connector;
+    public GameObject connectorLine;
     public GetMousePosition getMousePosition;
 
     // Start is called before the first frame update
@@ -30,6 +31,7 @@ public class OutputConnect : MonoBehaviour
         inputConnect = null;
         connector.transform.position = getMousePosition.GetPosition();
         connector.SetActive(true);
+        connectorLine.SetActive(true);
         Connector connectorClass = connector.GetComponent<Connector>();
         connectorClass.outputConnect = this;
     }

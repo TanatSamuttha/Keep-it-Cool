@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -9,6 +7,7 @@ public class Connector : MonoBehaviour
     public LayerMask inputConnectorLayer;
     public float hitBoxSize;
     public OutputConnect outputConnect;
+    public GameObject connectorLine;
 
     // Start is called before the first frame update
     void Start()
@@ -20,6 +19,7 @@ public class Connector : MonoBehaviour
     void Update()
     {
         transform.position = getMousePosition.GetPosition();
+        SetConnectorLine();
         if (Input.GetMouseButtonUp(0))
         {
             Collider2D collider2D = Physics2D.OverlapCircle(transform.position, hitBoxSize, inputConnectorLayer);
@@ -30,7 +30,23 @@ public class Connector : MonoBehaviour
                 outputConnect.inputConnect = inputConnect;
             }
             outputConnect = null;
+            connectorLine.SetActive(false);
             gameObject.SetActive(false);
         }
+    }
+
+    void SetConnectorLine()
+    {
+        float connectorX = gameObject.transform.position.x;
+        float connectorY = gameObject.transform.position.y;
+        float outputX = outputConnect.transform.position.x;
+        float outputY = outputConnect.transform.position.y;
+        float deltaX = connectorX - outputX;
+        float deltaY = connectorY - outputY;
+        float length = Mathf.Sqrt(deltaX * deltaX + deltaY * deltaY);
+        float angle = Mathf.Atan2(deltaY, deltaX) * Mathf.Rad2Deg;
+        connectorLine.transform.localScale = new Vector3(length, connectorLine.transform.localScale.y, connectorLine.transform.localScale.z);
+        connectorLine.transform.position = new Vector3((connectorX + outputX) / 2, (connectorY + outputY) / 2, connectorLine.transform.position.z);
+        connectorLine.transform.eulerAngles = new Vector3(0, 0, angle);
     }
 }
