@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.SearchService;
 using UnityEngine;
 
 public class OutputConnect : MonoBehaviour
@@ -14,7 +15,10 @@ public class OutputConnect : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        GameObject connectmanager = GameObject.Find("ConnectManager");
+        connector = connectmanager.transform.Find("Connector").gameObject;
+        connectorLine = connectmanager.transform.Find("ConnectorLine").gameObject;
+        getMousePosition = GameObject.Find("GameManager").GetComponent<GetMousePosition>();
     }
 
     // Update is called once per frame
