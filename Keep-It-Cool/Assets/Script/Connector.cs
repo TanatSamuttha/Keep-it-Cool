@@ -8,6 +8,8 @@ public class Connector : MonoBehaviour
     public float hitBoxSize;
     public OutputConnect outputConnect;
     public GameObject connectorLine;
+    public GameObject pipePrefab;
+
 
     // Start is called before the first frame update
     void Start()
@@ -28,6 +30,7 @@ public class Connector : MonoBehaviour
                 InputConnect inputConnect = collider2D.GetComponent<InputConnect>();
                 inputConnect.outputConnect = outputConnect;
                 outputConnect.inputConnect = inputConnect;
+                CreatePipe(inputConnect.gameObject);
             }
             outputConnect = null;
             connectorLine.SetActive(false);
@@ -48,5 +51,14 @@ public class Connector : MonoBehaviour
         connectorLine.transform.localScale = new Vector3(length, connectorLine.transform.localScale.y, connectorLine.transform.localScale.z);
         connectorLine.transform.position = new Vector3((connectorX + outputX) / 2, (connectorY + outputY) / 2, connectorLine.transform.position.z);
         connectorLine.transform.eulerAngles = new Vector3(0, 0, angle);
+    }
+
+    void CreatePipe(GameObject inputConnect)
+    {
+        GameObject newPipe = Instantiate(pipePrefab, (inputConnect.transform.position + outputConnect.gameObject.transform.position) / 2, Quaternion.identity);
+        Pipe pipeClass = newPipe.GetComponent<Pipe>();
+        pipeClass.input = inputConnect;
+        pipeClass.output = outputConnect.gameObject;
+        outputConnect.pipe = newPipe;
     }
 }

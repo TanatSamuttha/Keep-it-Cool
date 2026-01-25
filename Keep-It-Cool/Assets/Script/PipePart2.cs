@@ -11,7 +11,14 @@ public class PipePart2 : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        getMousePosition = GameObject.Find("GameManager").GetComponent<GetMousePosition>();
+        Pipe pipe = transform.parent.gameObject.GetComponent<Pipe>();
+        output = pipe.output;
+        input = pipe.input;
+        gameObject.transform.position = new Vector2(
+            (output.transform.position.x + input.transform.position.x) / 2,
+            Mathf.Min(output.transform.position.y - 0.6f, input.transform.position.y - 0.6f)
+        );
     }
 
     // Update is called once per frame
