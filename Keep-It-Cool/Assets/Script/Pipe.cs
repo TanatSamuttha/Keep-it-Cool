@@ -4,33 +4,50 @@ using UnityEngine;
 
 public class Pipe : MonoBehaviour
 {
-    public GameObject part1;
-    public GameObject part2;
-    public GameObject part3;
+    public GameObject outPipe;
+    public GameObject inPipe;
     public GameObject output;
     public GameObject input;
+    public GetMousePosition getMousePosition;
 
     // Start is called before the first frame update
     void Start()
     {
-        part1 = transform.Find("Part1").gameObject;
-        part2 = transform.Find("Part2").gameObject;
-        part3 = transform.Find("Part3").gameObject;
+        getMousePosition = GameObject.Find("GameManager").GetComponent<GetMousePosition>();
+        outPipe = transform.Find("OutPipe").gameObject;
+        inPipe = transform.Find("InPipe").gameObject;
+
+        gameObject.transform.localScale = new Vector2(
+            Mathf.Abs(output.transform.position.x - input.transform.position.x) + outPipe.transform.localScale.x, 
+            gameObject.transform.localScale.y
+        );
+        gameObject.transform.position = new Vector2(
+            (output.transform.position.x + input.transform.position.x) / 2,
+            Mathf.Min(output.transform.position.y - 0.6f, input.transform.position.y - 0.6f)
+        );
+        SetInOutPipe(outPipe, output, true);
+        SetInOutPipe(inPipe, input, true);
     }
 
-    // Update is called once per frame
-    void Update()
+    void OnMouseDrag()
     {
-        part1.transform.position = new Vector2(
-            output.transform.position.x,
-            (output.transform.position.y + part2.transform.position.y) / 2
+        gameObject.transform.position = new Vector2(
+            (output.transform.position.x + input.transform.position.x) / 2,
+            Mathf.Min(getMousePosition.GetPosition().y, output.transform.position.y - 0.6f, input.transform.position.y - 0.6f)
         );
-        part3.transform.position = new Vector2(
-            input.transform.position.x,
-            (input.transform.position.y + part2.transform.position.y) / 2
+        SetInOutPipe(outPipe, output, false);
+        SetInOutPipe(inPipe, input, false);
+    }
+
+    void SetInOutPipe(GameObject pipe, GameObject connector, bool useLossy)
+    {
+        pipe.transform.localScale = new Vector2(
+            pipe.transform.localScale.x / (useLossy ? gameObject.transform.lossyScale.x : 1),
+            Mathf.Abs(connector.transform.position.y - gameObject.transform.position.y) / gameObject.transform.lossyScale.y
         );
-        part1.transform.localScale = new Vector2(part1.transform.localScale.x, Mathf.Abs(output.transform.position.y - part2.transform.position.y));
-        part3.transform.localScale = new Vector2(part3.transform.localScale.x, Mathf.Abs(input.transform.position.y - part2.transform.position.y));
-        part2.transform.localScale = new Vector2(Mathf.Abs(output.transform.position.x - input.transform.position.x) + part1.transform.localScale.x, part2.transform.localScale.y);
+        pipe.transform.position = new Vector2(
+            connector.transform.position.x,
+            (connector.transform.position.y + gameObject.transform.position.y) / 2
+        );
     }
 }
