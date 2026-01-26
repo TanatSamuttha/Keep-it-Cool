@@ -14,7 +14,8 @@ public class Connector : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        // SpriteRenderer sr = connectorLine.GetComponent<SpriteRenderer>();
+        // Debug.Log("Sprite world width = " + sr.sprite.bounds.size.x);
     }
 
     // Update is called once per frame
@@ -37,20 +38,17 @@ public class Connector : MonoBehaviour
             gameObject.SetActive(false);
         }
     }
-
+    
     void SetConnectorLine()
     {
-        float connectorX = gameObject.transform.position.x;
-        float connectorY = gameObject.transform.position.y;
-        float outputX = outputConnect.transform.position.x;
-        float outputY = outputConnect.transform.position.y;
-        float deltaX = connectorX - outputX;
-        float deltaY = connectorY - outputY;
-        float length = Mathf.Sqrt(deltaX * deltaX + deltaY * deltaY);
-        float angle = Mathf.Atan2(deltaY, deltaX) * Mathf.Rad2Deg;
-        connectorLine.transform.localScale = new Vector3(length, connectorLine.transform.localScale.y, connectorLine.transform.localScale.z);
-        connectorLine.transform.position = new Vector3((connectorX + outputX) / 2, (connectorY + outputY) / 2, connectorLine.transform.position.z);
-        connectorLine.transform.eulerAngles = new Vector3(0, 0, angle);
+        LineRenderer lr = connectorLine.GetComponent<LineRenderer>();
+
+        Vector3 start = outputConnect.transform.position;
+        Vector3 end = transform.position;
+
+        lr.positionCount = 2;
+        lr.SetPosition(0, start);
+        lr.SetPosition(1, end);
     }
 
     void CreatePipe(GameObject inputConnect)

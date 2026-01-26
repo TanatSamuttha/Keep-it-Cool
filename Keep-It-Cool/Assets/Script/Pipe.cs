@@ -21,9 +21,10 @@ public class Pipe : MonoBehaviour
             Mathf.Abs(output.transform.position.x - input.transform.position.x) + outPipe.transform.localScale.x, 
             gameObject.transform.localScale.y
         );
-        gameObject.transform.position = new Vector2(
+        gameObject.transform.position = new Vector3(
             (output.transform.position.x + input.transform.position.x) / 2,
-            Mathf.Min(output.transform.position.y - 0.6f, input.transform.position.y - 0.6f)
+            Mathf.Min(output.transform.position.y - 0.6f, input.transform.position.y - 0.6f),
+            1
         );
         SetInOutPipe(outPipe, output, true);
         SetInOutPipe(inPipe, input, true);
@@ -31,9 +32,10 @@ public class Pipe : MonoBehaviour
 
     void OnMouseDrag()
     {
-        gameObject.transform.position = new Vector2(
+        gameObject.transform.position = new Vector3(
             (output.transform.position.x + input.transform.position.x) / 2,
-            Mathf.Min(getMousePosition.GetPosition().y, output.transform.position.y - 0.6f, input.transform.position.y - 0.6f)
+            Mathf.Min(getMousePosition.GetPosition().y, output.transform.position.y - 0.6f, input.transform.position.y - 0.6f),
+            1
         );
         SetInOutPipe(outPipe, output, false);
         SetInOutPipe(inPipe, input, false);
@@ -45,9 +47,10 @@ public class Pipe : MonoBehaviour
             pipe.transform.localScale.x / (useLossy ? gameObject.transform.lossyScale.x : 1),
             Mathf.Abs(connector.transform.position.y - gameObject.transform.position.y) / gameObject.transform.lossyScale.y
         );
-        pipe.transform.position = new Vector2(
+        pipe.transform.position = new Vector3(
             connector.transform.position.x,
-            (connector.transform.position.y + gameObject.transform.position.y) / 2
+            (connector.transform.position.y + gameObject.transform.position.y) / 2,
+            1
         );
     }
 }
