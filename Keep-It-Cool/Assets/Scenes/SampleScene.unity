@@ -427,7 +427,7 @@ MonoBehaviour:
   hitBoxSize: 0.5
   outputConnect: {fileID: 0}
   connectorLine: {fileID: 1311441445}
-  pipePrefab: {fileID: 4078146186474121115, guid: 6f5e8982a62760b4b92a453740575231, type: 3}
+  pipePrefab: {fileID: 4665783437702202178, guid: 6f5e8982a62760b4b92a453740575231, type: 3}
 --- !u!212 &1458000499
 SpriteRenderer:
   m_ObjectHideFlags: 0

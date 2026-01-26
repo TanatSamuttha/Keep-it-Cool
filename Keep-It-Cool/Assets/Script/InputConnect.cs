@@ -18,6 +18,4 @@ public class InputConnect : MonoBehaviour
     {
         gameObject.GetComponent<Renderer>().material.color = (outputConnect.IsUnityNull())?Color.red:Color.green;
     }
-
-    
 }
