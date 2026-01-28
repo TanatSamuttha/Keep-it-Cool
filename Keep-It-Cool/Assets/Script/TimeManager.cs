@@ -24,6 +24,7 @@ public class TimeManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(yearLong <= 0) return;
         yearTimePass += Time.deltaTime;
         int day = (int)(yearTimePass / yearLong * 365);
         dayUI.text = "Day " + day.ToString();
